@@ -1,5 +1,0 @@
-performance characteristics
-
-node116
-/proc/cpuinfo
-/proc/meminfo
