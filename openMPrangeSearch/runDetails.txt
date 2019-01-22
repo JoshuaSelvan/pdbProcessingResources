@@ -2,7 +2,7 @@ Range_search_parameters
 ---------------------------
 Protein_file_list_location:
 /home/jselvan/RefactoredCode/MultiVariantRangeSearch/inputSelectionLists/V3AllRangesFileList.txt  
-Search_Type:(1-bruteForce,2-gpuBruteForceSimple,3-gpuBruteForceSingleload,4-gpuBruteForceBatchLoad,5-kdtree,6-gpuKdTreeSimple,7-gpuKdTreeSingleLoad,8-gpuKdTreeBatchLoad,9-MultiProcessRun,10-kdTreeEsoteric)
+Search_Type:(1-bruteForce,5-kdtree,)
 5
 Debuggin_Level:(0-none,1-some,2-lots)
 0
@@ -11,9 +11,9 @@ Results_Output_Type:(0-none,1-to_Screen_summary,2-to_Screen_Detailed,3-to_File,4
 Number_of_files:
 37500
 Atom_A:
-rrr
+OG
 Atom_B:
-ttt
+N
 Required_Proximity:
 4
 Range_1_max_protein_length:

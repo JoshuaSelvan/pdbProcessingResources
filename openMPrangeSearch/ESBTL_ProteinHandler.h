@@ -9,13 +9,12 @@
 #include <ostream>
 #include "AtomNameToNumHashTable.h"
 #include "miscFunctions.h"
-//#include "SearchStructureConstruction.h"
 #include "dataStructures.h"
 #include "ESBTL_ProteinHandler.h"
 #include <string>
 #include <assert.h>
 
-#include <algorithm>    // std::fill_n
+#include <algorithm>    
 
 
 

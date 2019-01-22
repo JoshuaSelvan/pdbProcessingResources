@@ -22,7 +22,6 @@ void print_chrono_elapsed(std::chrono::time_point<std::chrono::high_resolution_c
     fsec fs = end-start;   
         
     ms d = std::chrono::duration_cast<ms>(fs);
-    //std::cout << fs.count() << "s\n";
     std::cout<<caption<<" " << d.count() << "ms\n";
 }
 
