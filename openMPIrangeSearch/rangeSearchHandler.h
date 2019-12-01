@@ -7,6 +7,7 @@
 #include "cpuBruteForceSearch.h"
 
 #include "cpuKdTreeSearch.h"
+//#include "StatisticsGenerator.h"
 #include <string>
 #include <vector>
 
@@ -15,6 +16,8 @@
 
 void initiateRangeSearch(rangeSearchSettings RangeSearchSettings,int personalFilesToProcess, int personalStartingPointInList);
 void multipleRunTimer(rangeSearchSettings RangeSearchSettings, ProteinDataHandler &heldProteinSets, AtomToNumHashTable &atomReferenceTable);
+
+//void setSecondarySearchStructure(ProteinDataHandler &ProteinData);
 
 
 

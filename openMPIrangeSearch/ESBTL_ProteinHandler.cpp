@@ -197,6 +197,9 @@ void ProteinDataHandler::loadAllProteinsToArrays(std::string inputFileLocationsL
 	std::string currentFile;
     
     int filesLoaded =0;
+   // for (int i=0;i<5;i++)
+   // ProteinDataHolder[i].heldEntries;
+
 
 	if (debugLvl>0)
 		std::cout<<"Max Number of files to store: "<<personalFilesToProcess<<std::endl;
@@ -236,7 +239,7 @@ int ProteinDataHandler::loadSingleProteinDetailsIntoArrays(std::string proteinFi
     int destinationSet = 0;
     int arrayInsertionStartPoint =0;
     
-	std::cout << "Processing file: " << proteinFileLocation<<"\t ";
+	std::cout << "Processing file: " << proteinFileLocation<<"\t ";// << std::endl;
     ESBTL::PDB_line_selector_two_systems sel;
     std::vector<ESBTL::Default_system> systems;
     ESBTL::All_atom_system_builder<ESBTL::Default_system> builder(systems, sel.max_nb_systems());

@@ -3,11 +3,11 @@ Range_search_parameters
 Protein_file_list_location:
 sampleInputList.txt
 Search_Type:(1-bruteForce,2-gpuBruteForceSimple,3-gpuBruteForceSingleload,4-gpuBruteForceBatchLoad,5-kdtree,6-gpuKdTreeSimple,7-gpuKdTreeSingleLoad,8-gpuKdTreeBatchLoad,9-MultiProcessRun,10-kdTreeEsoteric)
-5
+8
 Debuggin_Level:(0-none,1-some,2-lots)
 0
 Results_Output_Type:(0-none,1-to_Screen_summary,2-to_Screen_Detailed,3-to_File,4-to_File_detailed)
-2
+1
 Number_of_files:
 50
 Atom_A:

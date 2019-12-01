@@ -28,6 +28,6 @@ int sizeOfFinalKdLevel(int chainSize, int &numberOfLevels);
 
 void constructKdTreesOnLoadedDataOnCPU(ProteinDataHandler &ProteinData);
 
-
+//void setSecondarySearchStructure(ProteinDataHandler &ProteinData);
 
 #endif

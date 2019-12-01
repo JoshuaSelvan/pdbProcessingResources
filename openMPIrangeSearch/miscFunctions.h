@@ -15,7 +15,8 @@ void loadRunDetails(std::string sourceFile, rangeSearchSettings &currentSettings
 void print_elapsed(clock_t start, clock_t end, std::string captionBeforeTimeDifference);
 int loadMultiRunDetails(std::vector<multiRunDetailsSet> &multiSet, std::string fileName);
 void resetMultiRunDetails();
-
+//void setIntArrayValues(int *array, int value, int lengthOfArray);
+//void setShortArrayValues(short *array, int value, int lengthOfArray);
 void print_chrono_elapsed(std::chrono::time_point<std::chrono::high_resolution_clock>start, std::chrono::time_point<std::chrono::high_resolution_clock> end, std::string caption);
 
 void resetInputTextFile();

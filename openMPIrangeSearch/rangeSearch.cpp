@@ -56,18 +56,38 @@ int main(int argc, char** argv) {
 	if(world_rank==0)
 		cout<<"Total number of input files is: "<<totalInputFiles<<endl;
 
+	
+/*	int arraytest = (int*)malloc(sizeof(int) * 8);
+	for(int i=0; i<8;i++)
+	{
+		arraytest[i]=0;
+	}
+
+	#pragma omp parallel for
+	for(int i=0; i<8;i++)
+	{
+		arraytest[i]=i+i*i*i*i/(i-1);
+	}
+*/
+//if(world_rank==0)
+//	for(int i=0; i<8;i++)
+//	{
+//		std::cout<<arraytest[i]<<std::endl;
+//	}
+
+	//return;
 
 
-	int numberOfFilesPerProcessor = (int) ceil( (float)totalInputFiles / world_size ); 
+	int numberOfFilesPerProcessor = (int) ceil( (float)totalInputFiles / world_size );//=trunc(totalInputFiles/world_size); 
 	int personalFilesToProcess=0;
 	if(world_rank<(world_size-1))
 	{
-		personalFilesToProcess= (int) ceil( (float)totalInputFiles / world_size );
+		personalFilesToProcess= (int) ceil( (float)totalInputFiles / world_size );//numberOfFilesPerProcessor;
 		personalStartingPointInList=numberOfFilesPerProcessor*world_rank;
 	}
 	else
 	{
-		personalFilesToProcess= (int) floor( (float)totalInputFiles / world_size );
+		personalFilesToProcess= (int) floor( (float)totalInputFiles / world_size );//numberOfFilesPerProcessor+1;
 		personalStartingPointInList=numberOfFilesPerProcessor*world_rank;
 	}
 
@@ -81,15 +101,17 @@ int main(int argc, char** argv) {
 	outputFileName += ".txt";
 
 
-	//printf( "cpu = %d\n", sched_getcpu() );
+	
 	cout<<"ProcessorRank: "<<world_rank<<" on host: "<<processor_name <<" Is processing: "<<personalFilesToProcess<<" starting at position: "<<personalStartingPointInList<<" and is printing to: "<<outputFileName<<endl;
 
-
+	
+    
 	clock_t  start,end;
 	start =clock();
 	initiateRangeSearch(currentSettings,personalFilesToProcess,personalStartingPointInList);
 
 
+	
 	end=clock();
 	print_elapsed(start, end,"total run time: ");
 

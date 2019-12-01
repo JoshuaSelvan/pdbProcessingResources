@@ -9,10 +9,11 @@ void initiateRangeSearch(rangeSearchSettings RangeSearchSettings,int personalFil
     	typedef std::chrono::milliseconds ms;
     	typedef std::chrono::duration<float> fsec;
 
-	auto start = Time::now();
-        auto stop = Time::now();
+	auto start = Time::now();//
+        auto stop = Time::now();//
 
-
+	//clock_t start, stop, start2,stop2;
+	//int totalNumberOfFiles = checkNumberOfProteinFilesInList(RangeSearchSettings.inputListFileLocation);
 	AtomToNumHashTable atomReferenceTable;
 	ProteinDataHandler heldProteinSets(RangeSearchSettings);
 	
@@ -27,7 +28,7 @@ void initiateRangeSearch(rangeSearchSettings RangeSearchSettings,int personalFil
 	heldProteinSets.populateXYZarrayForGPUProcessing();
 	 start = Time::now();	
 //start2=clock();
-	constructKdTreesOnLoadedDataOnCPU(heldProteinSets);
+	constructKdTreesOnLoadedDataOnCPU(heldProteinSets);//should this be included in the run time of searching gpu kd trees?
 	//constructKdTreesOnLoadedDataOnCPUWithGPUSorting(heldProteinSets);
 	//constructKdTreesOnLoadedDataOnGPU(heldProteinSets);
 	//GPUTreeWithCPULoad(heldProteinSets);
@@ -50,29 +51,50 @@ void initiateRangeSearch(rangeSearchSettings RangeSearchSettings,int personalFil
 
 	if (RangeSearchSettings.searchType == 0){
 	 start = Time::now();	
-	//start = clock();
+	
 		pureBruteForce(RangeSearchSettings, heldProteinSets, atomReferenceTable);
-		//stop = clock();
+		
 		 stop = Time::now();
 		std::cout << "RUN time for PURE CPU BRUTE FORCE: Required Proximity: ";
 		print_chrono_elapsed(start, stop, "");
 	}
 	else if (RangeSearchSettings.searchType== 1){
-		//start = clock();
-		 start = Time::now();
+		
+		start = Time::now();
+		
 		cpuBruteForceRangeSearchAllLoadedSets(RangeSearchSettings, heldProteinSets, atomReferenceTable);
-		//stop = clock();
+		
 		 stop = Time::now();
 		print_chrono_elapsed(start, stop, "Run time for CPU BRUTE FORCE RANGE SEARCH: ");
 	}
 	else if (RangeSearchSettings.searchType == 5){
-		//start = clock();
 		 start = Time::now();
-		//heldProteinSets.setSecondarySearchStructure();//Should this be included in the run time of searching cpu based range searches?
+	
 		cpuKdTreeRangeSearch(RangeSearchSettings, heldProteinSets, atomReferenceTable);
-		//stop = clock();
+		
 		 stop = Time::now();
 		print_chrono_elapsed(start, stop, "Run time for CPU KD TREE RANGE SEARCH: ");
+	}
+	else if (RangeSearchSettings.searchType == 6){
+	
+	//	start = clock();
+		//gpuKdTreeUnoptimisedRangeSearchAllLoadedSets(RangeSearchSettings, heldProteinSets, atomReferenceTable);
+	//	stop = clock();
+	//	print_elapsed(start, stop, "Run time for SIMPLE GPU KD TREE RANGE SEARCH: ");
+	}
+	else if (RangeSearchSettings.searchType == 7){
+
+	//	start = clock();
+		//kdTreeSearchAllAvailableFilesSingleGpuLoadedEntryAtATime(RangeSearchSettings, heldProteinSets, atomReferenceTable);
+	//	stop = clock();
+	//	print_elapsed(start, stop, "Run time for SINGLE LOAD GPU KD TREE RANGE SEARCH: ");
+	} else if (RangeSearchSettings.searchType == 8)
+	{
+
+	//	start = clock();
+		//kdTreeSearchAllAvailableFilesSeveralGpuLoadedEntrysAtATime(RangeSearchSettings, heldProteinSets, atomReferenceTable);
+	//	stop = clock();
+	//	print_elapsed(start, stop, "Run time for GPU BATCH LOAD KD TREE RANGE SEARCH: ");
 	}
 	else if (RangeSearchSettings.searchType == 9)
 	{
@@ -81,7 +103,7 @@ void initiateRangeSearch(rangeSearchSettings RangeSearchSettings,int personalFil
 	else if (RangeSearchSettings.searchType == 10)
 	{
 
-		std::cout << "Esoteric not included" << std::endl;
+		std::cout << "Esoteric not yet included" << std::endl;
 	}
 
 	

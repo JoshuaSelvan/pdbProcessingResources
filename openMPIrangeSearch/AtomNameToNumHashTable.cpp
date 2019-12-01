@@ -35,6 +35,7 @@ short AtomToNumHashTable::retrieveHashValue(std::string atomName)
                         }
                         else if (hashTable[storageRow].Pos[currentPos] == "Null")
                         {
+                                //std::cout<<"Atom was not previously in hashTable"<<std::endl; uncomment to see when atom names are being added to the hashtable
                                 hashTable[storageRow].Pos[currentPos] = atomName;
                                 return currentPos * 100 + storageRow;
                         }
