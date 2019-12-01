@@ -1,0 +1,6 @@
+g++ -o openMPRangeSearchRunner -O2 -fopenmp rangeSearch.cpp miscFunctions.cpp AtomNameToNumHashTable.cpp cpuBruteForceSearch.cpp printToFileHandler.cpp dataStructures.cpp cpuKdTreeSearch.cpp SearchStructureConstruction.cpp  ESBTL_ProteinHandler.cpp -I /ThirdParty/ -std=gnu++11
+
+
+
+export OMP_NUM_THREADS=2
+

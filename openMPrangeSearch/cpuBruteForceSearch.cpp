@@ -160,7 +160,7 @@ void bruteForceSearchCpu(atomCoords atomACoords, int * atomBPositionList, int * 
 
 
 
-//The brute force search without a hashed index. Not accesable in this code.
+
 void pureBruteForce(rangeSearchSettings &settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable)
 {
 
