@@ -8,13 +8,23 @@
 #include "gpuKdTreeRangeSearch.cuh"
 #include "gpuBruteForceSearch.cuh"
 #include "cpuKdTreeSearch.h"
+//#include "StatisticsGenerator.h"
 #include <string>
 #include <vector>
+#include "constructKdTreesOnLoadedDataWithGPU.cuh"
+
+#include <chrono>
+
+//#include "chrono_io"
+
+
 
 
 
 void initiateRangeSearch(rangeSearchSettings RangeSearchSettings);
 void multipleRunTimer(rangeSearchSettings RangeSearchSettings, ProteinDataHandler &heldProteinSets, AtomToNumHashTable &atomReferenceTable);
+
+//void setSecondarySearchStructure(ProteinDataHandler &ProteinData);
 
 
 

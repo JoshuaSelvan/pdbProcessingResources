@@ -20,6 +20,8 @@ public:
 	int searchType;
 	int debugLevel;
 	int resultsPrintFormat;
+
+	int multiBatchRangeSizes[5];
 };
 
 struct multipleProteinSet
@@ -73,7 +75,76 @@ struct multipleProteinSet
 
     };
 
+	struct gpuBruteForceSingleEntryResources
+	{
+		int* h_atomAPositionList;
+		int* h_atomACount;
 
+		int* h_atomAMatches;
+		int* h_atomBMatches;
+		int* h_MatchesCount;
+		int* h_nextSearchCount;
+		int* h_completionFlag;
+
+		int* d_atomAPositionList;
+		int* d_atomACurrentSearchDimensions;
+		int* d_atomACurrentSearchKdTreePositions;
+		int* d_atomACount;
+
+		int* d_atomAMatches;
+		int* d_atomBMatches;
+		int* d_MatchesCount;
+
+		int* d_nextSearchCount;
+		int* d_completionFlag;
+
+		int blocks;
+		int threads;
+
+		//used for kd-tree search
+		int *d_xyzCoordsSets;
+
+		//used for brute=force search
+		int *d_xCoords;
+		int *d_yCoords;
+		int *d_zCoords;
+
+
+		short *d_names;
+		int *d_kdTree;
+		////////////////////////////////////////////////////////////
+		//processing resources
+
+
+		//Test arrays which play no active role in the code
+		//int* h_atomBPositionList;
+		//int* d_atomBPositionList;
+		//int* h_atomACurrentSearchDimensions;
+		//int* h_atomACurrentSearchKdTreePositions;
+
+		int concurrentThreads;
+
+		int* h_resultsCount;
+		int* h_resultsA;
+		int* h_resultsB;
+
+		int *h_aCount;
+		int *h_bCount;
+
+
+		int* h_elementAList;  //I used these for loading the element arrays back from the device to check what was in them, otherwise commented out.
+		int* h_elementBList;
+
+		int* d_elementAList; //I used these for loading the element arrays back from the device to check what was in them, otherwise commented out.
+		int* d_elementBList;
+
+		int* d_resultsCount;
+		int* d_resultsA;
+		int* d_resultsB;
+
+		int* d_aCount;
+		int* d_bCount;
+	};
 
 	struct gpuRangeSearchResources{
 		int* h_atomAPositionList;
@@ -174,6 +245,44 @@ struct dataLoader
 
 };
 
+
+
+
+struct dataLoaderWithGpuExtensions
+{
+	int *numOfAtoms;
+
+	
+	int *xValues;
+	int *yValues;
+	int *zValues;
+
+	int *kdTreeholder;
+
+	int *xBackPositionReferenceList;
+	int *yBackPositionReferenceList;
+	int *zBackPositionReferenceList;
+
+	int *xForwardPositionReferenceList;
+	int *yForwardPositionReferenceList;
+	int *zForwardPositionReferenceList;
+
+	int *d_xBackPositionReferenceList;
+	int *d_yBackPositionReferenceList;
+	int *d_zBackPositionReferenceList;
+
+	int *d_xForwardPositionReferenceList;
+	int *d_yForwardPositionReferenceList;
+	int *d_zForwardPositionReferenceList;
+
+	int *d_xCoordsHolder;
+	int *d_yCoordsHolder;
+	int *d_zCoordsHolder;
+
+	int*d_kdTree;
+
+
+};
 struct kdTask {
 	int kdDestination;
 	int minX;
@@ -186,12 +295,14 @@ struct kdTask {
 
 struct multiRunDetailsSet{
 
+	int proximitiesCount;
 	std::vector<float> proximities;
 	std::vector<int> entriesToSearchEachRound;
-	int currentRange;
+	int currentRange;// = 0;
 	std::string atom1;
 	std::string atom2;
 	int searchType;
+	int batchSizesPerRange[5];
 };
 
 

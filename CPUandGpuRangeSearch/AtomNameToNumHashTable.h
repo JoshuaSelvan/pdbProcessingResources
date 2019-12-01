@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <algorithm>   
+#include <algorithm>    // std::fill_n
 
 
 class AtomToNumHashTable

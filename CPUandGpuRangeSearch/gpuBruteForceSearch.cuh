@@ -6,6 +6,8 @@
 #include "dataStructures.h"
 #include "AtomNameToNumHashTable.h"
 #include "printToFileHandler.h"
+#include "miscFunctions.h"
+#include "SearchStructureConstruction.h"
 #include <string>
 #include <vector>
 
@@ -26,4 +28,7 @@ __global__ void DeviceLoadedArrays_SingleProtein_LocateElements(short * d_namesS
 __global__ void DeviceLoadedArrays_SingleProtein_BruteForceSearch(short * d_namesSet, int* d_elementAList, int* d_elementBList, short atomA, short atomB, int * d_aCount, int * d_bCount, int standardizedEntrySize, int entryNumber, int concurrentThreads, int*d_resultsAList, int*d_resultsBList, int*d_resultsCount, int* d_xValsSet, int* d_yValsSet, int* d_zValsSet, int requiredProximity);
 
 
+void bruteForceSearchAllAvailableFilesSingleGpuLoadedEntryAtATime(rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable);
+void bruteForceSearchAllAvailableFilesSeveralGpuLoadedEntrysAtATime(rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable);
+void hybridGpuCpuSearch(rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable);
 #endif

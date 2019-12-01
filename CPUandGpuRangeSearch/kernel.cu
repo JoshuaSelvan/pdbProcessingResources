@@ -9,19 +9,32 @@
 #include <time.h>
 #include <string>
 #include "gpuMemoryLimitTester.cuh"
+#include "interface.h"
+#include <iostream>
+
+
 
 int main()
 {
 
+	displayProgramDetails();
+	int proceed = checkUserOperations();
+
+	if (proceed == 0)
+		return 0;
 	//checkGpuMemoryLimit();
 	//return;
 
 
-		clock_t start, stop;
+	clock_t start, stop;
 	rangeSearchSettings currentSettings;
 	std::string runSettingsFile = "runDetails.txt";
+	
+	//This line is redundant. Type in 4 at begin to select the rename option
+	//reformatFileList("range1FileList.txt","/local/pdb/",".gz", "internalRange1list.txt");
+	//return 0;	
 
-	//reformatFileList("C:\\Users\\Joshua\\Desktop\\refactoredThesisExecutalbes\\RefactoredGpuSearch\\RefactoredGpuSearch\\pdbFileSet\\pdbListMedium.txt", "pdbFileSet\\", ""); - not up to date. Do not use!
+
 	//resetMultiRunDetails();//working
 
 
@@ -38,7 +51,7 @@ int main()
 		stop = clock();
 
 
-	print_elapsed(start, stop, "Run time including load time: ");
+	print_elapsed(start, stop, "Total run time: ");
 	return 0;
 
 }

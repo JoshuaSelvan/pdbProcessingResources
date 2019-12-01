@@ -1,6 +1,6 @@
 #include "cpuKdTreeSearch.h"
 
-void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable)
+void cpuKdTreeRangeSearch(/*std::string atomA, std::string atomB, int requiredProximity, */rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable)
 {
 
 	int outputType = settings.resultsPrintFormat;
@@ -16,7 +16,7 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 		printType = "_Detailed";
 	}
 
-	std::cout << "PERFORMING KD TREE RANGE SEARCH" << std::endl;
+	std::cout << "PERFORMING TYPE 5 RANGE SEARCH: KD TREE" << std::endl;
 
 
 	int soughtAtomANumber = atomReferenceTable.retrieveHashValue(settings.AtomTypeOne);
@@ -45,13 +45,14 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 
 	for (int i = 0; i < 5; i++)
 	{
-		if (outputType == 3 || outputType == 4)
+		if (outputType == 3 || outputType == 4)//will move into loop shortly
 		{
 			filePrinter.initializeOutputfile("Range_", settings.maxProteinLengthPerRange[i], "_Files_", heldProteinSets.ProteinDataHolder[i].heldEntries, printType);
 		}
 
 		if (heldProteinSets.ProteinDataHolder[i].heldEntries>0)
 		{
+
 			std::cout << std::endl;
 			std::cout << "Processing Range set: " << i << std::endl;
 			std::cout << "Number of present entries is: " << heldProteinSets.ProteinDataHolder[i].heldEntries << std::endl;
@@ -71,6 +72,15 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 			//For every stored data set
 			for (int currentEntry = 0; currentEntry < heldProteinSets.ProteinDataHolder[i].heldEntries; currentEntry++)
 			{
+				if(currentEntry%1200==0)
+					std::cout<<"i"<<std::endl;
+				
+				//std::cout<<"Entry Number: "<<currentEntry<<std::endl;
+				//std::cout<<"max entry size: "<<heldProteinSets.ProteinDataHolder[i].MaxEntrySize<<std::endl;
+				//std::cout<<"kd tree size: "<< heldProteinSets.ProteinDataHolder[i].KdTreeSize<<std::endl;
+				//std::cout<<"kdTree Starting point"<< heldProteinSets.ProteinDataHolder[i].KdTreeSize*currentEntry<<std::endl<<std::endl;
+
+
 				searchEntryInSecondaryPositionStructureForAtom(soughtAtomANumber, currentEntry, heldProteinSets.ProteinDataHolder[i].MaxEntrySize, heldProteinSets.ProteinDataHolder[i].compositionCountsList, heldProteinSets.ProteinDataHolder[i].compositionLists, heldProteinSets.ProteinDataHolder[i].compositionPointers, rangeSearch.atomAPositionList, rangeSearch.atomACount);
 				if (rangeSearch.atomACount[0] > 0)
 				{
@@ -79,6 +89,7 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 					{
 
 						std::vector<int> resultsVector;
+						//resultsVector.reserve(heldProteinSets.ProteinDataHolder[i].MaxEntrySize * 2);
 						int *runCount = (int*)malloc(sizeof(int));
 						runCount[0] = 0;
 
@@ -96,6 +107,7 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 							if (outputType == 2)
 							{
 								std::cout << "Atom A: " << heldProteinSets.ProteinDataHolder[i].namesSets[rangeSearch.atomAPositionList[p]] << "\t - Pos : " << (rangeSearch.atomAPositionList[p] - heldProteinSets.ProteinDataHolder[i].MaxEntrySize*currentEntry) << "\t X: " << ((double(heldProteinSets.ProteinDataHolder[i].xCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << "\t Y: " << ((double(heldProteinSets.ProteinDataHolder[i].yCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << "\t Z: " << ((double(heldProteinSets.ProteinDataHolder[i].zCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << std::endl;
+								//std::cout << "Atom B: " << heldProteinSets.ProteinDataHolder[i].namesSets[/*heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry +*/ resultsVector[j]] << "\t - Pos : " << (resultsVector[j] - currentEntry*heldProteinSets.ProteinDataHolder[i].MaxEntrySize) << "\t X: " << ((double(heldProteinSets.ProteinDataHolder[i].xCoordsSets[/*heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry +*/ resultsVector[j]])) / 1000) << "\t Y: " << ((double(heldProteinSets.ProteinDataHolder[i].yCoordsSets[/*heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + */resultsVector[j]])) / 1000) << "\t Z: " << ((double(heldProteinSets.ProteinDataHolder[i].zCoordsSets[/*heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry +*/ resultsVector[j]])) / 1000) << std::endl << std::endl;
 								std::cout << "Atom B: " << heldProteinSets.ProteinDataHolder[i].namesSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]] << "\t - Pos : " << resultsVector[j] << "\t X: " << ((double(heldProteinSets.ProteinDataHolder[i].xCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << "\t Y: " << ((double(heldProteinSets.ProteinDataHolder[i].yCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << "\t Z: " << ((double(heldProteinSets.ProteinDataHolder[i].zCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << std::endl << std::endl;
 
 							}
@@ -106,10 +118,12 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 								filePrinter.printLineToOutputFile("");
 							}
 
+							/*outputFile*/// std::cout << "Atom A: " << heldProteinSets.ProteinDataHolder[i].namesSets[rangeSearch.atomAPositionList[p]] << "\t - Pos : " << (rangeSearch.atomAPositionList[p] - heldProteinSets.ProteinDataHolder[i].MaxEntrySize*currentEntry) << "\t X: " << ((double(heldProteinSets.ProteinDataHolder[i].xCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << "\t Y: " << ((double(heldProteinSets.ProteinDataHolder[i].yCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << "\t Z: " << ((double(heldProteinSets.ProteinDataHolder[i].zCoordsSets[rangeSearch.atomAPositionList[p]])) / 1000) << std::endl;
+							/*outputFile*/// std::cout << "Atom B: " << heldProteinSets.ProteinDataHolder[i].namesSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]] << "\t - Pos : " << resultsVector[j] << "\t X: " << ((double(heldProteinSets.ProteinDataHolder[i].xCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << "\t Y: " << ((double(heldProteinSets.ProteinDataHolder[i].yCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << "\t Z: " << ((double(heldProteinSets.ProteinDataHolder[i].zCoordsSets[heldProteinSets.ProteinDataHolder[i].MaxEntrySize * currentEntry + resultsVector[j]])) / 1000) << std::endl << std::endl;
 						}
 
 
-						
+						//resultsSize=resultsSize+resultsVector.size();
 
 					}
 					if (outputType == 1 || outputType == 2)
@@ -118,7 +132,8 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 						filePrinter.printLineToOutputFile("Number of matches in file ", numberOfProcessedFiles, " in set ", i, "  is: ", resultsSize);
 					numberOfProcessedFiles++;
 
-
+					//std::cout << "Number of matches in file " << numberOfProcessedFiles << " in set " << i << "  is: " << resultsSize << std::endl;
+					//numberOfProcessedFiles++;
 
 				}
 				else
@@ -128,12 +143,16 @@ void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler held
 					else if (outputType == 3 || outputType == 4)
 						filePrinter.printLineToOutputFile("Number of matches in file ", numberOfProcessedFiles, " in set ", i, "  is: 0");
 					numberOfProcessedFiles++;
+					//std::cout << "Number of matches in file " << numberOfProcessedFiles << " in set " << i << "  is: 0" << std::endl;
+					//numberOfProcessedFiles++;
 				}
 			}
 
 			m = clock();
 			if (settings.debugLevel>0)
 				print_elapsed(n, m, "time to process file subset: ");
+			//	outputFile.close();
+			//std::cout << "finished range searches for set: " << i << std::endl;
 		}
 		filePrinter.closeOpenFile();
 	}
@@ -154,14 +173,16 @@ void rangeSearchCpu(atomCoords targetAtom, int elementTwo, int maxDistance, std:
 
 
 
-
+//	if(TreePos>kdArraySize)
+//		return;
 
 	if (kdArray[kdTreeStartPositionOffset + TreePos] == -1)
 		return;
 
 	if (squaredDistanceFromAtomAToLocation < pow(maxDistance, 2)) //If the distance between the desired atom and the current atom is within the desired range
 	{
-
+		if(squaredDistanceFromAtomAToLocation<0)
+//		std::cout<<"Accepted Distance: "<<squaredDistanceFromAtomAToLocation<<" - max distance: "<< pow(maxDistance, 2)<<std::endl;;
 		if (currentElement == (elementTwo))
 			resultsVector.push_back(kdArray[kdTreeStartPositionOffset + TreePos]);
 
@@ -194,9 +215,9 @@ void rangeSearchCpu(atomCoords targetAtom, int elementTwo, int maxDistance, std:
 
 
 
-int squaredDistance3D(atomCoords targetAtom, atomCoords currentAtom)
+float squaredDistance3D(atomCoords targetAtom, atomCoords currentAtom)
 {
-	int temp = pow((targetAtom.xyz[0] - currentAtom.xyz[0]), 2) + pow((targetAtom.xyz[1] - currentAtom.xyz[1]), 2) + pow((targetAtom.xyz[2] - currentAtom.xyz[2]), 2);
+	float temp = pow((targetAtom.xyz[0] - currentAtom.xyz[0]), 2) + pow((targetAtom.xyz[1] - currentAtom.xyz[1]), 2) + pow((targetAtom.xyz[2] - currentAtom.xyz[2]), 2);
 	return temp;
 }
 

@@ -10,10 +10,10 @@
 #include "printToFileHandler.h"
 
 
-void cpuKdTreeRangeSearch(rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable);
+void cpuKdTreeRangeSearch(/*std::string AtomA, std::string atomB, int requiredProximity,*/rangeSearchSettings& settings, ProteinDataHandler heldProteinSets, AtomToNumHashTable atomReferenceTable);
 void rangeSearchCpu(atomCoords targetAtom, int elementTwo, int maxDistance, std::vector<int> &resultsVector, short *names, int *xValueArray, int *yValueArray, int*zValueArray, int *kdArray, int kdArraySize, int TreePos, int treeLevel, int* runcount, int valueArraysStartPositionOffset, int kdTreeStartPositionOffset);
 
-int squaredDistance3D(atomCoords targetAtom, atomCoords currentAtom);
+float squaredDistance3D(atomCoords targetAtom, atomCoords currentAtom);
 bool viableDirection(atomCoords targetAtom, atomCoords currentAtom, atomCoords childAtom, int treeLevel, int requiredDistance);
 
 #endif

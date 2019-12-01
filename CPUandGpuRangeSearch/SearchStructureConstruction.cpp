@@ -443,7 +443,9 @@ void constructKdTreesOnLoadedDataOnCPU(ProteinDataHandler &ProteinData)
 	{
 
 		for (int j = 0; j<ProteinData.ProteinDataHolder[i].heldEntries; j++)
-		{
+		{	
+			if(j%500==0)
+				std::cout<<"-"<<std::endl;
 			//Load data of next protein and reset intermediate value arrays
 			for (int y = 0; y<ProteinData.ProteinDataHolder[i].MaxEntrySize; y++)
 			{

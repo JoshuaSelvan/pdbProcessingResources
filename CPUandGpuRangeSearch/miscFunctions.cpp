@@ -3,6 +3,34 @@
 #include "dataStructures.h"
 
 
+
+void switchLoadingAndProcessingSets(int &loading, int &processing)
+{
+	int temp = loading;
+	loading = processing;
+	processing = temp;
+	return;
+}
+
+
+void print_chrono_elapsed(std::chrono::time_point<std::chrono::high_resolution_clock> start, std::chrono::time_point<std::chrono::high_resolution_clock> end, std::string caption)
+{
+    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::milliseconds ms;
+    typedef std::chrono::duration<float> fsec;
+   
+    fsec fs = end-start;   
+        
+    ms d = std::chrono::duration_cast<ms>(fs);
+    //std::cout << fs.count() << "s\n";
+    std::cout<<caption<<" " << d.count() << "ms\n";
+}
+
+
+
+
+
+
 void resetMultiRunDetails()
 {
 
@@ -77,7 +105,9 @@ int loadMultiRunDetails(std::vector<multiRunDetailsSet>& multiSet, std::string f
 
 	for (int i = 0; i < numberOfEntries; i++)
 	{
+		
 		multiRunDetailsSet currentset;
+		currentset.proximitiesCount = 0;
 		sourceFileLoader >> holderString;
 		sourceFileLoader >> currentset.searchType;
 		sourceFileLoader >> holderString;
@@ -93,6 +123,7 @@ int loadMultiRunDetails(std::vector<multiRunDetailsSet>& multiSet, std::string f
 		{
 			sourceFileLoader >> nextProximity;
 			currentset.proximities.push_back(nextProximity);
+			currentset.proximitiesCount++;
 		}
 		sourceFileLoader >> holderString;
 		sourceFileLoader >> numberOfEntriesToSearch;
@@ -105,11 +136,12 @@ int loadMultiRunDetails(std::vector<multiRunDetailsSet>& multiSet, std::string f
 
 		sourceFileLoader >> holderString;
 		sourceFileLoader >> holderString;
+
 		multiSet.push_back(currentset);
 	}
+	
 	sourceFileLoader.close();
 	return numberOfEntries;
-	
 }
 
 
@@ -228,7 +260,20 @@ void resetInputTextFile()
 }
 
 
-void reformatFileList(std::string unformattedFile, std::string newPrefix, std::string newSuffix)
+std::vector<std::string> split(std::string strToSplit, char delimeter)
+{
+    std::stringstream ss(strToSplit);
+    std::string item;
+    std::vector<std::string> splittedStrings;
+    while (std::getline(ss, item, delimeter))
+    {
+       splittedStrings.push_back(item);
+    }
+    return splittedStrings;
+}
+
+
+void reformatFileList(std::string unformattedFile, std::string newPrefix, std::string newSuffix, std::string newFileName)
 {
 	std::ifstream sourceFileLoader;
 	sourceFileLoader.open(unformattedFile.c_str());
@@ -236,14 +281,85 @@ void reformatFileList(std::string unformattedFile, std::string newPrefix, std::s
 	std::string holderString;
 
 	std::ofstream destFile;
-	destFile.open("reformattedFileList.txt");
+	destFile.open(newFileName);
 
 	while (sourceFileLoader >> holderString)
 	{
-		destFile << newPrefix << holderString << newSuffix << std::endl;
+		std::vector<std::string> splitString;
+		//boost::split(splitString,holderString, [](char c){return c == '/';});
+		splitString = split(holderString,'/');
+		std::string removedPath = splitString.back();
+		splitString = split(removedPath,'.');
+		std::string removedBack = splitString[0];
+		std::string newFileNameInner = newPrefix+removedBack+newSuffix;
+		std::cout<<newFileNameInner<<std::endl;
+		destFile << newPrefix << removedBack/*holderString*/ << newSuffix << std::endl;
 	}
 
 	sourceFileLoader.close();
 	destFile.close();
+
+}
+
+
+int largestSizeInArrayPos(int *theArray, int arraySize)
+{
+	int largest = 0;
+	for (int i = 0; i < arraySize; i++)
+	{
+		if (theArray[i]>theArray[largest])
+			largest = i;
+	}
+
+	return largest;
+}
+
+
+void loadMultiBatchRangeSizes(std::string sourceFile, rangeSearchSettings &currentSettings)
+{
+
+	std::ifstream sourceFileLoader;
+	sourceFileLoader.open(sourceFile.c_str());
+	std::string holderString;
+
+
+	sourceFileLoader >> holderString;
+	sourceFileLoader >> holderString;
+	
+	sourceFileLoader >> currentSettings.multiBatchRangeSizes[0];
+	sourceFileLoader >> holderString;
+	sourceFileLoader >> currentSettings.multiBatchRangeSizes[1];
+	sourceFileLoader >> holderString;
+	sourceFileLoader >> currentSettings.multiBatchRangeSizes[2];
+	sourceFileLoader >> holderString;
+	sourceFileLoader >> currentSettings.multiBatchRangeSizes[3];
+	sourceFileLoader >> holderString;
+	sourceFileLoader >> currentSettings.multiBatchRangeSizes[4];
+	
+	sourceFileLoader.close();
+
+};
+
+
+
+void resetMultiBatchRangeSizes()
+{
+	std::ofstream sourceFileLoader;
+	sourceFileLoader.open("MultiBatchSizes.txt");
+	std::string holderString;
+
+	sourceFileLoader << "Set_Ranges_For_Multi_Batch_GPU_Searches:" << std::endl;
+	sourceFileLoader << "Range_0:" << std::endl;
+	sourceFileLoader << "2" << std::endl;
+	sourceFileLoader << "Range_1:" << std::endl;
+	sourceFileLoader << "2" << std::endl;
+	sourceFileLoader << "Range_2:" << std::endl;
+	sourceFileLoader << "2" << std::endl;
+	sourceFileLoader << "Range_3:" << std::endl;
+	sourceFileLoader << "2" << std::endl;
+	sourceFileLoader << "Range_4:" << std::endl;
+	sourceFileLoader << "1" << std::endl;
+	
+	sourceFileLoader.close();
 
 }

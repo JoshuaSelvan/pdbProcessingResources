@@ -1,6 +1,6 @@
 
 #include "ESBTL_ProteinHandler.h"
-#include <ESBTL/default.h>
+#include "ESBTL/default.h"
 #include "miscFunctions.h"
 
 
@@ -135,7 +135,7 @@ int ProteinDataHandler::determineRangeOfSingleProteinFile(std::string proteinFil
 	
 	int numOfAtomsInCurrentProtein = 0;
 	int destinationSet = 0;
-	std::cout << "Processing file: " << proteinFileLocation << "\t ";
+	std::cout << "Processing file: " << proteinFileLocation << "\t ";// << std::endl;
 	ESBTL::PDB_line_selector_two_systems sel;
 	std::vector<ESBTL::Default_system> systems;
 	ESBTL::All_atom_system_builder<ESBTL::Default_system> builder(systems, sel.max_nb_systems());
@@ -196,7 +196,7 @@ void ProteinDataHandler::loadAllProteinsToArrays(std::string inputFileLocationsL
     fileLoader.open(inputFileLocationsList.c_str());
 	std::string currentFile;
     
-    short filesLoaded =0;
+    int filesLoaded =0;
    // for (int i=0;i<5;i++)
    // ProteinDataHolder[i].heldEntries;
 
@@ -207,7 +207,13 @@ void ProteinDataHandler::loadAllProteinsToArrays(std::string inputFileLocationsL
 	{
 		filesLoaded = filesLoaded + loadSingleProteinDetailsIntoArrays(currentFile, atomReferenceTable,currentSettings);
 		if (debugLvl>1)
-			std::cout<<filesLoaded<<std::endl;
+		{
+			if (filesLoaded > 0)
+				std::cout << filesLoaded << std::endl;
+			else
+				return;
+		}
+		//	std::cout<<filesLoaded<<std::endl;
 	}
 	std::cout<<"number of files succesfully loaded into the holding arrays: "<<filesLoaded<<std::endl<<std::endl;
    
@@ -353,9 +359,9 @@ void formatSecondaryPositionStructure(short* namesSetsArray, int maximumLengthOf
 
 	for (int i = 0; i < EntryCount; i++)
 	{
-	
+		//std::cout << "Processing entry " <<i<<"of "<<EntryCount<< std::endl;
 		int startOffSet = i*maximumLengthOfChains;
-		int numberOfAtomsPlaced = 0;
+		int numberOfAtomsPlaced = 0;//purely for testing
 		for (int j = 0; j < chainLengthsList[i]; j++) //We look at every actual atom in the array, not the blank spaces
 		{
 			int atomRecordSearcher = 0;
