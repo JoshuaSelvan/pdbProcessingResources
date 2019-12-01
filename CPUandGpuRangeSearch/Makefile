@@ -10,7 +10,7 @@ clean:
 	rm -f gpuRangeSearchRunner
 
 ESBTL_ProteinHandler.o: ESBTL_ProteinHandler.cpp
-	g++ -static-libstdc++ -c ${FLAGS} -o ESBTL_ProteinHandler.o -I /home/jselvan/ESBTL-1.0-beta01/include/ ESBTL_ProteinHandler.cpp -std=c++11   
+	g++ -static-libstdc++ -c ${FLAGS} -o ESBTL_ProteinHandler.o -I thirdParty/ ESBTL_ProteinHandler.cpp -std=c++11   
 
 
 %.o:    %.cpp %.h
